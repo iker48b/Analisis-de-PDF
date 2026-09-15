@@ -1,5 +1,5 @@
 #!/bin/bash
-# Instalador de dependencias para el script de análisis de PDFs (phishing.sh)
+# Instalador de dependencias para el script de análisis de PDFs (analisis.sh)
 #
 # Uso:
 #   sudo ./instalar_dependencias.sh
@@ -22,7 +22,7 @@ if [[ "${EUID}" -ne 0 ]]; then
 fi
 
 echo "=========================================="
-echo " Instalador de dependencias — phishing.sh"
+echo " Instalador de dependencias — analisis.sh"
 echo "=========================================="
 echo
 
@@ -130,5 +130,5 @@ echo
 echo "=========================================="
 echo " Instalación finalizada."
 echo " Recuerda dar permisos de ejecución a tu script principal:"
-echo "   chmod +x phishing.sh"
+echo "   chmod +x analisis.sh"
 echo "=========================================="
