@@ -17,7 +17,14 @@ Para cada PDF que coincida con el prefijo indicado, genera un informe con:
 - **Permisos y tipo real del archivo** (detecta ejecutables disfrazados de PDF)
 - **Hashes MD5/SHA256** con enlace directo a VirusTotal
 
-El resultado se guarda en un archivo de texto (`evidencias_<prefijo>.txt` por defecto).
+El resultado se guarda en un **informe HTML** (`evidencias_<prefijo>.html` por defecto) con:
+
+- Un índice al inicio con enlace directo a cada PDF y un badge de riesgo (`SIN ALERTAS` / `RIESGO MEDIO` / `RIESGO ALTO`)
+- Alertas resaltadas por color (verde/ámbar/rojo) para cada hallazgo
+- Secciones organizadas en tarjetas por tipo de análisis
+- Enlace directo a VirusTotal por cada hash
+
+Todo el contenido extraído del propio PDF (metadatos, JavaScript, URIs, enlaces) se **escapa** antes de insertarse en el HTML, para evitar que un PDF malicioso pueda inyectar código en el propio informe al abrirlo en el navegador.
 
 ## Requisitos
 
@@ -46,8 +53,8 @@ chmod +x analisis.sh
 ### Ejemplos
 
 ```bash
-./analisis.sh Michael evidencias.txt
-./analisis.sh Factura                      # salida por defecto: evidencias_Factura.txt
+./analisis.sh Michael evidencias.html
+./analisis.sh Factura                      # salida por defecto: evidencias_Factura.html
 ./analisis.sh ATT2023876304419.pdf -p "contraseña_del_pdf"
 ```
 
@@ -58,6 +65,7 @@ El script busca todos los archivos `<prefijo>*.pdf` en el directorio actual.
 - Este script está pensado para analizar archivos **potencialmente maliciosos**. Ejecútalo en un entorno aislado (VM, sandbox) si sospechas que el PDF puede explotar vulnerabilidades del propio sistema.
 - Si usas la opción `-p` para pasar una contraseña, ten en cuenta que quedará visible en el historial de tu shell y en la lista de procesos (`ps aux`) mientras el script corre. Evita usarla con contraseñas sensibles en sistemas compartidos.
 - El script **no sube nada a VirusTotal automáticamente**; solo genera el enlace para que la consulta se haga manualmente.
+- El informe HTML generado puede contener enlaces/URIs extraídos del PDF analizado. No hagas clic directamente desde el informe; cópialos a un entorno seguro (ej. [urlscan.io](https://urlscan.io)) si necesitas visitarlos.
 
 ## Licencia
 
