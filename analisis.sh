@@ -51,6 +51,11 @@ PREFIJO="$1"
 # la quitamos para que el patrón de búsqueda de abajo funcione igual con o sin ella.
 PREFIJO="${PREFIJO%.[Pp][Dd][Ff]}"
 SALIDA="${2:-evidencias_${PREFIJO}.html}"
+# Sanea espacios en el nombre del archivo de salida. Un nombre con espacios,
+# al abrirlo con "Abrir con" en Windows, puede llegar sin comillas al
+# navegador y este lo interpreta como varios argumentos/URLs, abriendo una
+# pestaña por cada palabra.
+SALIDA="$(printf '%s' "$SALIDA" | tr -s ' ' '_')"
 
 # ---------- Comprobación de dependencias ----------
 need_cmd () {
